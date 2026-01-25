@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+    <!-- macro defination: vision -->
+  <xmacro_define_block name="vision" params="parent pose camera_joint_xyz camera_joint_rpy">
+    <joint name="vision_joint" type="fixed">
+      <pose relative_to="${parent}">${pose}</pose>
+      <parent>${parent}</parent>
+      <child>odom_vision</child>
+    </joint>
+    
+    <link name="odom_vision" />
+    <link name="gimbal_link" />
+    <joint name="gimbal_joint" type="floating">
+      <pose>0 0 0 0 0 0</pose>
+      <parent>odom_vision</parent>
+      <child>gimbal_link</child>
+    </joint>
+
+    <link name="camera_link" />
+    <joint name="camera_joint" type="fixed">
+      <pose>${camera_joint_xyz} ${camera_joint_rpy}</pose>
+      <parent>gimbal_link</parent>
+      <child>camera_link</child>
+    </joint>
+
+    <link name="camera_optical_frame" />
+    <joint name="camera_optical_joint" type="fixed">
+      <pose>0 0 0 ${-3.1415926/2} 0 ${-3.1415926/2}</pose>
+      <parent>camera_link</parent>
+      <child>camera_optical_frame</child>
+    </joint>
+  </xmacro_define_block>
+</sdf>
