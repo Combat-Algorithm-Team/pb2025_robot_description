@@ -66,15 +66,15 @@ def launch_setup(context: LaunchContext) -> list:
                 ],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
-            IncludeLaunchDescription(
-                PythonLaunchDescriptionSource(
-                    os.path.join(
-                        get_package_share_directory("pb2025_robot_description"),
-                        "launch",
-                        "imu_launch.py",
-                    )
-                ),
-                condition=IfCondition(NotSubstitution(LaunchConfiguration("vision_debug")))
+            Node(
+                package="joint_state_publisher",
+                executable="joint_state_publisher",
+                name="joint_state_publisher",
+                output="screen",
+                respawn=use_respawn,
+                respawn_delay=2.0,
+                parameters=[configured_params],
+                arguments=["--ros-args", "--log-level", log_level],
             ),
             Node(
                 condition=IfCondition(use_rviz),

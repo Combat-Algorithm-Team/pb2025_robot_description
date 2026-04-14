@@ -1,4 +1,11 @@
+joint_state_publisher:
+  ros__parameters:
+    use_sim_time: false
+    rate: 100.0
+    source_list: ["base_yaw_joint"]
+    offset_timestamp: 0.0
+
 robot_state_publisher:
   ros__parameters:
     use_sim_time: false
-    publish_frequency: 300.0
+    publish_frequency: 100.0
