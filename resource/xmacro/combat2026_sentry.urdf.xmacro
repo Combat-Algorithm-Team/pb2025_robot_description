@@ -47,8 +47,6 @@
 
     <!-- vision -->
     <link name="odom_vision" />
-    <link name="gimbal_link" />
-    
     <joint name="vision_joint" type="floating">
         <parent link="base_yaw_odom"/>
         <child link="odom_vision"/>
