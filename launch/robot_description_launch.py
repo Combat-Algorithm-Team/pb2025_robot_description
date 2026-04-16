@@ -39,7 +39,6 @@ def launch_setup(context: LaunchContext) -> list:
     configured_params = ParameterFile(
         RewrittenYaml(
             source_file=params_file,
-            root_key=namespace,
             param_rewrites=param_substitutions,
             convert_types=True,
         ),
@@ -63,9 +62,7 @@ def launch_setup(context: LaunchContext) -> list:
                 parameters=[
                     configured_params,
                     {
-                        "use_sim_time": use_sim_time,
                         "robot_description": robot_description,
-                        "publish_frequency": 200,
                     },
                 ],
                 arguments=["--ros-args", "--log-level", log_level],
@@ -79,12 +76,6 @@ def launch_setup(context: LaunchContext) -> list:
                 respawn_delay=2.0,
                 parameters=[
                     configured_params,
-                    {
-                        "use_sim_time": use_sim_time,
-                        "rate": 200,
-                        "source_list": ["base_yaw_joint_publisher"],
-                        "offset_timestamp": 0.0,
-                    },
                 ],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
@@ -152,12 +143,6 @@ def generate_launch_description():
 
     declare_use_rviz_cmd = DeclareLaunchArgument(
         "use_rviz", default_value="True", description="Whether to start RViz"
-    )
-
-    declare_vision_debug_cmd = DeclareLaunchArgument(
-        "vision_debug",
-        default_value="False",
-        description="",
     )
 
     declare_use_respawn_cmd = DeclareLaunchArgument(
