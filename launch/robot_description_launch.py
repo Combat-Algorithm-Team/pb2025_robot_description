@@ -33,18 +33,6 @@ def launch_setup(context: LaunchContext) -> list:
 
     robot_description = Command(['xacro ', context.launch_configurations["robot_xmacro_file"]])
 
-    # Create our own temporary YAML files that include substitutions
-    param_substitutions = {"use_sim_time": use_sim_time}
-
-    configured_params = ParameterFile(
-        RewrittenYaml(
-            source_file=params_file,
-            param_rewrites=param_substitutions,
-            convert_types=True,
-        ),
-        allow_substs=True,
-    )
-
     stdout_linebuf_envvar = SetEnvironmentVariable(
         "RCUTILS_LOGGING_BUFFERED_STREAM", "1"
     )
@@ -60,9 +48,10 @@ def launch_setup(context: LaunchContext) -> list:
                 respawn=use_respawn,
                 respawn_delay=2.0,
                 parameters=[
-                    configured_params,
                     {
+                        "use_sim_time": use_sim_time,
                         "robot_description": robot_description,
+                        "publish_frequency": 200.0,
                     },
                 ],
                 arguments=["--ros-args", "--log-level", log_level],
@@ -75,7 +64,12 @@ def launch_setup(context: LaunchContext) -> list:
                 respawn=use_respawn,
                 respawn_delay=2.0,
                 parameters=[
-                    configured_params,
+                    {
+                        "use_sim_time": use_sim_time,
+                        "rate": 200.0,
+                        "source_list": ["base_yaw_joint_publisher"],
+                        "offset_timestamp": 0.0,
+                    },
                 ],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
@@ -129,12 +123,6 @@ def generate_launch_description():
         description="The file path of the robot xmacro to be used",
     )
 
-    declare_params_file_cmd = DeclareLaunchArgument(
-        "params_file",
-        default_value=os.path.join(bringup_dir, "params", "robot_description.yaml"),
-        description="Full path to the ROS2 parameters file to use for all launched nodes",
-    )
-
     declare_rviz_config_file_cmd = DeclareLaunchArgument(
         "rviz_config_file",
         default_value=os.path.join(bringup_dir, "rviz", "visualize_robot.rviz"),
@@ -163,7 +151,6 @@ def generate_launch_description():
     ld.add_action(declare_use_sim_time_cmd)
     ld.add_action(declare_robot_name_cmd)
     ld.add_action(declare_robot_xmacro_file_cmd)
-    ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_rviz_config_file_cmd)
     ld.add_action(declare_use_rviz_cmd)
     ld.add_action(declare_use_respawn_cmd)
