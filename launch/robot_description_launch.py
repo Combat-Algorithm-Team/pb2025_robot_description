@@ -165,7 +165,6 @@ def generate_launch_description():
     ld.add_action(declare_robot_xmacro_file_cmd)
     ld.add_action(declare_params_file_cmd)
     ld.add_action(declare_rviz_config_file_cmd)
-    ld.add_action(declare_vision_debug_cmd)
     ld.add_action(declare_use_rviz_cmd)
     ld.add_action(declare_use_respawn_cmd)
     ld.add_action(declare_log_level_cmd)
