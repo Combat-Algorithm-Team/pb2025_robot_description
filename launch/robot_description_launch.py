@@ -62,7 +62,11 @@ def launch_setup(context: LaunchContext) -> list:
                 respawn_delay=2.0,
                 parameters=[
                     configured_params,
-                    {"robot_description": robot_description},
+                    {
+                        "use_sim_time": use_sim_time,
+                        "robot_description": robot_description,
+                        "publish_frequency": 200,
+                    },
                 ],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
@@ -73,7 +77,15 @@ def launch_setup(context: LaunchContext) -> list:
                 output="screen",
                 respawn=use_respawn,
                 respawn_delay=2.0,
-                parameters=[configured_params],
+                parameters=[
+                    configured_params,
+                    {
+                        "use_sim_time": use_sim_time,
+                        "rate": 200,
+                        "source_list": ["base_yaw_joint_publisher"],
+                        "offset_timestamp": 0.0,
+                    },
+                ],
                 arguments=["--ros-args", "--log-level", log_level],
             ),
             Node(
