@@ -52,7 +52,7 @@
     <joint name="odin1_joint" type="fixed">
         <parent link="base_yaw"/>
         <child link="odin1_base_link"/>
-        <origin xyz="-0.12088 0 0.3" rpy="0 0 -${pi}"/>
+        <origin xyz="-0.22131 0.01897 0.30746" rpy="0 0 -${pi}"/>
     </joint>
 
     <!-- vision -->
