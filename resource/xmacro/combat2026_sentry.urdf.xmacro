@@ -45,6 +45,16 @@
         <origin xyz="0.12088 0 0.17608" rpy="-${pi/6} 0 -${pi/2}"/>
     </joint>
 
+    <!-- odin1 link-->
+    <link name="odin1"/>
+
+    <!-- Base yaw to odin1 joint -->
+    <joint name="odin1_joint" type="fixed">
+        <parent link="base_yaw"/>
+        <child link="odin1"/>
+        <origin xyz="-0.12088 0 0.3" rpy="0 0 -${pi}"/>
+    </joint>
+
     <!-- vision -->
     <link name="odom_vision" />
     <joint name="vision_joint" type="floating">
