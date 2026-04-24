@@ -46,12 +46,12 @@
     </joint>
 
     <!-- odin1 link-->
-    <link name="odin1"/>
+    <link name="odin1_base_link"/>
 
     <!-- Base yaw to odin1 joint -->
     <joint name="odin1_joint" type="fixed">
         <parent link="base_yaw"/>
-        <child link="odin1"/>
+        <child link="odin1_base_link"/>
         <origin xyz="-0.12088 0 0.3" rpy="0 0 -${pi}"/>
     </joint>
 
